@@ -1,23 +1,16 @@
 /*
  * Design: 翡翠金融 Neo-Oriental Fintech
  * Page: 財務及法律聲明 (Step 5/6)
+ * Referral: 2 options only - 線上 (online) / 線下 (offline with TV & friends examples)
  */
 import { AppHeader, BottomNav, PageWrapper, PrimaryButton, StepProgress } from "@/components/AppShell";
 import { useNavigation } from "@/contexts/NavigationContext";
 import { useState } from "react";
 
-const referralSources = [
-  { icon: "language", label: "網上搜尋 (Google/Yahoo)", checked: false },
-  { icon: "share", label: "社交媒體 (Facebook/IG)", checked: true },
-  { icon: "group", label: "親友推薦", checked: false },
-  { icon: "tv", label: "電視/電台廣告", checked: false },
-  { icon: "mail", label: "短訊/電郵推廣", checked: false },
-];
-
 export default function FinancialPage() {
   const { navigateTo } = useNavigation();
   const [intermediary, setIntermediary] = useState("N");
-  const [selectedSource, setSelectedSource] = useState("社交媒體 (Facebook/IG)");
+  const [selectedSource, setSelectedSource] = useState<string | null>(null);
   const [agreed, setAgreed] = useState(false);
 
   return (
@@ -120,34 +113,67 @@ export default function FinancialPage() {
                 </div>
               </div>
 
+              {/* Referral Source - 2 options only */}
               <div>
                 <label className="block text-sm font-semibold text-slate-500 mb-3">從何認識我們</label>
                 <div className="space-y-3">
-                  {referralSources.map((source) => (
-                    <label
-                      key={source.label}
-                      onClick={() => setSelectedSource(source.label)}
-                      className={`flex items-start gap-3 p-3 rounded-xl cursor-pointer transition-all ${
-                        selectedSource === source.label
-                          ? "bg-[#5ce697]/5 ring-1 ring-[#5ce697]"
-                          : "hover:bg-slate-50"
-                      }`}
-                    >
-                      <div className={`w-5 h-5 rounded flex items-center justify-center mt-0.5 flex-shrink-0 ${
-                        selectedSource === source.label
-                          ? "bg-[#5ce697] text-white"
-                          : "border-2 border-slate-300"
-                      }`}>
-                        {selectedSource === source.label && (
-                          <span className="material-symbols-outlined text-xs">check</span>
-                        )}
+                  {/* Online */}
+                  <label
+                    onClick={() => setSelectedSource("online")}
+                    className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all border-2 ${
+                      selectedSource === "online"
+                        ? "border-[#5ce697] bg-[#5ce697]/5"
+                        : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0 transition-colors ${
+                      selectedSource === "online"
+                        ? "bg-[#5ce697] text-white"
+                        : "border-2 border-slate-300"
+                    }`}>
+                      {selectedSource === "online" && (
+                        <span className="material-symbols-outlined text-sm">check</span>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="material-symbols-outlined text-[#5ce697]">language</span>
+                        <span className="font-bold text-slate-900">線上渠道 (Online)</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-slate-400 text-sm">{source.icon}</span>
-                        <span className="text-sm font-medium text-slate-700">{source.label}</span>
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        例如：Google 搜尋、Facebook / Instagram 廣告、YouTube 影片、網站橫幅廣告、網上論壇等
+                      </p>
+                    </div>
+                  </label>
+
+                  {/* Offline */}
+                  <label
+                    onClick={() => setSelectedSource("offline")}
+                    className={`flex items-start gap-4 p-4 rounded-xl cursor-pointer transition-all border-2 ${
+                      selectedSource === "offline"
+                        ? "border-[#5ce697] bg-[#5ce697]/5"
+                        : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    }`}
+                  >
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0 transition-colors ${
+                      selectedSource === "offline"
+                        ? "bg-[#5ce697] text-white"
+                        : "border-2 border-slate-300"
+                    }`}>
+                      {selectedSource === "offline" && (
+                        <span className="material-symbols-outlined text-sm">check</span>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="material-symbols-outlined text-[#5ce697]">groups</span>
+                        <span className="font-bold text-slate-900">線下渠道 (Offline)</span>
                       </div>
-                    </label>
-                  ))}
+                      <p className="text-xs text-slate-500 leading-relaxed">
+                        例如：電視廣告 (TVB/ViuTV)、親友介紹推薦、街頭傳單、巴士 / 港鐵車廂廣告、報紙雜誌等
+                      </p>
+                    </div>
+                  </label>
                 </div>
               </div>
             </div>
