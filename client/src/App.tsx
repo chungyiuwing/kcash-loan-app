@@ -1,38 +1,49 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+import { NavigationProvider, useNavigation } from "./contexts/NavigationContext";
+import type { PageId } from "./contexts/NavigationContext";
 
+import HomePage from "./pages/HomePage";
+import PropertyTypePage from "./pages/PropertyTypePage";
+import LoanDetailsPage from "./pages/LoanDetailsPage";
+import PhoneVerifyPage from "./pages/PhoneVerifyPage";
+import EkycPage from "./pages/EkycPage";
+import PersonalInfoPage from "./pages/PersonalInfoPage";
+import EmploymentPage from "./pages/EmploymentPage";
+import FinancialPage from "./pages/FinancialPage";
+import PreviewPage from "./pages/PreviewPage";
 
-function Router() {
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+const pageComponents: Record<PageId, React.ComponentType> = {
+  "home": HomePage,
+  "property-type": PropertyTypePage,
+  "loan-details": LoanDetailsPage,
+  "phone-verify": PhoneVerifyPage,
+  "ekyc": EkycPage,
+  "personal-info": PersonalInfoPage,
+  "employment": EmploymentPage,
+  "financial": FinancialPage,
+  "preview": PreviewPage,
+};
+
+function PageRouter() {
+  const { currentPage } = useNavigation();
+  const PageComponent = pageComponents[currentPage];
+  return <PageComponent />;
 }
-
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
 
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
+      <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <NavigationProvider>
+            <div className="max-w-md mx-auto min-h-screen bg-[#f6f6f8] relative overflow-hidden shadow-2xl">
+              <PageRouter />
+            </div>
+          </NavigationProvider>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
