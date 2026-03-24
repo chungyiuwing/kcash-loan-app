@@ -115,9 +115,9 @@ export default function PersonalInfoPage() {
                 <label className="text-sm font-medium text-slate-500 px-1">教育程度 (Education)</label>
                 <div className="relative">
                   <select className={inputClass + " appearance-none"}>
-                    <option>大學學士 (Bachelor)</option>
-                    <option>碩士 (Master)</option>
-                    <option>博士 (PhD)</option>
+                    <option>大學 (Bachelor)</option>
+                    <option>碩士或以上 (Master)</option>
+                    <option>小學 (PhD)</option>
                     <option>中學 (Secondary)</option>
                   </select>
                   <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
